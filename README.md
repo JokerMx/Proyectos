@@ -2,6 +2,12 @@
 
 > Generador automatizado de proyectos Docker para **PHP**, **Node.js** y **.NET** con soporte para múltiples bases de datos y frameworks.
 
+## 🖥️ Plataformas soportadas
+
+- 🪟 **Windows** (PowerShell 5.0+ / WSL2)
+- 🐧 **Linux** (Ubuntu, Debian, CentOS, Fedora, etc.)
+- 🍎 **macOS** (11+)
+
 ---
 
 ## 📋 Tabla de Contenidos
@@ -11,6 +17,8 @@
 - [🛠️ Requisitos previos](#️-requisitos-previos)
 - [🔧 Instalación](#-instalación)
 - [💻 Uso](#-uso)
+  - [Windows](#windows)
+  - [Linux/macOS](#linuxmacos)
   - [Modo interactivo](#modo-interactivo)
   - [Modo automático](#modo-automático)
 - [🗂️ Tipos de proyecto](#️-tipos-de-proyecto)
@@ -21,13 +29,34 @@
 - [🧪 Comandos útiles](#-comandos-útiles)
 - [📚 Ejemplos](#-ejemplos)
 - [🐛 Troubleshooting](#-troubleshooting)
-- [🔄 Diferencias Windows vs Linux/macOS](#-diferencias-windows-vs-linuxmacos)
+- [🔄 Diferencias entre plataformas](#-diferencias-entre-plataformas)
 - [📖 Documentación adicional](#-documentación-adicional)
 - [🎓 Próximos pasos](#-próximos-pasos)
 
 ---
 
 ## 🚀 Quick Start
+
+### Windows (PowerShell)
+
+```powershell
+# 1. Clona el repositorio
+git clone <repo-url> && cd crea-proyecto
+
+# 2. Crea tu primer proyecto
+.\crea-proyecto.ps1 -Nombre "mi-proyecto" -Tipo PHP -Framework Laravel -BD MariaDB
+
+# 3. Entra al proyecto
+cd proyectos-php\mi-proyecto
+
+# 4. Inicia los servicios
+.\start.ps1
+
+# 5. Verifica
+curl http://localhost:8080/health
+```
+
+### Linux/macOS (Bash)
 
 ```bash
 # 1. Clona el repositorio
@@ -63,28 +92,47 @@ curl http://localhost:8080/health
 - ✅ **Detección de puertos** ocupados con sugerencias automáticas
 - ✅ **Claves generadas** automáticamente (APP_KEY, JWT_SECRET)
 - ✅ **Estructura completa** con Dockerfile, docker-compose, tests, CI/CD
-- ✅ **Scripts utilitarios** incluidos (`start.sh`, `clean.sh`)
-- ✅ **Multiplataforma:** Linux y macOS
+- ✅ **Scripts utilitarios** incluidos (`start.sh`, `clean.sh`, `start.ps1`)
+- ✅ **Multiplataforma:** Windows, Linux y macOS
 
 ---
 
 ## 🛠️ Requisitos previos
 
-| Requisito | Versión mínima | Notas |
-|---|---|---|
-| **Bash** | 4.0+ | Incluido en Linux/macOS |
-| **Docker** | 20.10+ | Motor de contenedores |
-| **Docker Compose** | 2.0+ | Orquestación |
-| **OpenSSL** | Cualquier | Generación de claves |
-| **Netcat** | Cualquier | Verificación de puertos |
+| Requisito | Windows | Linux/macOS | Notas |
+|---|---|---|---|
+| **PowerShell** | 5.0+ | - | Incluido en Windows 10/11 |
+| **Bash** | - | 4.0+ | Incluido en Linux/macOS |
+| **Docker Desktop** | 20.10+ | 20.10+ | Motor de contenedores |
+| **Docker Compose** | 2.0+ | 2.0+ | Orquestación |
+| **OpenSSL** | Opcional | Cualquier | Generación de claves |
+| **Netcat** | Opcional | Cualquier | Verificación de puertos |
 
-> **macOS:** Puede requerir actualizar Bash con Homebrew: `brew install bash`
+> **Nota:** En Windows, Docker Desktop incluye WSL2 backend. En Linux/macOS, instala Docker nativo.
 
 ---
 
 ## 🔧 Instalación
 
-### Opción A: Automática (recomendado)
+### Windows
+
+```powershell
+# 1. Instala Docker Desktop desde https://www.docker.com/products/docker-desktop/
+# 2. Habilita WSL2 durante la instalación
+# 3. Abre PowerShell como administrador
+# 4. Verifica la instalación
+docker --version
+docker compose version
+```
+
+**Requisitos:**
+- Windows 10/11 con WSL2 habilitado
+- Docker Desktop instalado
+- PowerShell 5.0+ (incluido por defecto)
+
+### Linux/macOS
+
+#### Opción A: Automática (recomendado)
 
 ```bash
 chmod +x setup.sh
@@ -98,7 +146,7 @@ Este script:
 - Configura permisos de ejecución
 - Valida el daemon de Docker
 
-### Opción B: Manual
+#### Opción B: Manual
 
 **Ubuntu/Debian:**
 ```bash
@@ -127,13 +175,29 @@ brew install docker docker-compose curl git netcat openssl jq
 
 ## 💻 Uso
 
+### Windows
+
+```powershell
+# Modo interactivo
+.\crea-proyecto.ps1
+
+# Modo automático
+.\crea-proyecto.ps1 -Nombre "mi-proyecto" -Tipo PHP -Framework Laravel -BD MariaDB
+```
+
+### Linux/macOS
+
+```bash
+# Modo interactivo
+./crea-proyecto.sh
+
+# Modo automático
+./crea-proyecto.sh -n "mi-proyecto" -t PHP -f Laravel -b MariaDB
+```
+
 ### Modo interactivo
 
 Ideal para principiantes. El script te guiará con preguntas paso a paso.
-
-```bash
-./crea-proyecto.sh
-```
 
 **Preguntas del menú:**
 1. Nombre del proyecto
@@ -150,21 +214,23 @@ Ideal para principiantes. El script te guiará con preguntas paso a paso.
 Ideal para automatización y CI/CD.
 
 ```bash
+# Linux/macOS
 ./crea-proyecto.sh -n "mi-proyecto" -t PHP -f Laravel -b MariaDB
-./crea-proyecto.sh -n "api-rest" -t Node -f Express -b PostgreSQL
-./crea-proyecto.sh -n "servicio" -t DotNet -f "Web API" -b SQLServer
+
+# Windows
+.\crea-proyecto.ps1 -Nombre "mi-proyecto" -Tipo PHP -Framework Laravel -BD MariaDB
 ```
 
 **Parámetros disponibles:**
 
-| Parámetro | Descripción | Valores |
-|---|---|---|
-| `-n` | Nombre del proyecto | Cualquier string sin caracteres especiales |
-| `-t` | Tipo de proyecto | `PHP`, `Node`, `DotNet` |
-| `-f` | Framework | Depende del tipo |
-| `-b` | Base de datos | `MariaDB`, `SQLServer`, `PostgreSQL`, `MongoDB`, `Redis`, `Ambas` |
-| `-p` | Puerto de la app | 1-65535 |
-| `-v` | Versión runtime | PHP: 7.4-8.3, Node: 16-22, .NET: 6.0-9.0 |
+| Parámetro | Windows | Linux/macOS | Descripción | Valores |
+|---|---|---|---|---|
+| Nombre | `-Nombre` | `-n` | Nombre del proyecto | Cualquier string sin caracteres especiales |
+| Tipo | `-Tipo` | `-t` | Tipo de proyecto | `PHP`, `Node`, `DotNet` |
+| Framework | `-Framework` | `-f` | Framework | Depende del tipo |
+| Base de datos | `-BD` | `-b` | Base de datos | `MariaDB`, `SQLServer`, `PostgreSQL`, `MongoDB`, `Redis`, `Ambas` |
+| Puerto app | `-PuertoApp` | `-p` | Puerto de la app | 1-65535 |
+| Versión | `-VersionPHP/VersionNode/VersionDotNet` | `-v` | Versión runtime | PHP: 7.4-8.3, Node: 16-22, .NET: 6.0-9.0 |
 
 ---
 
@@ -227,8 +293,8 @@ proyectos-{tipo}/
     ├── DEPLOYMENT.md            # Guía de despliegue
     ├── CONTRIBUTING.md          # Guía de contribución
     ├── SECURITY.md              # Políticas de seguridad
-    ├── start.sh                 # Iniciar servicios (ejecutable)
-    ├── clean.sh                 # Limpiar todo (ejecutable)
+    ├── start.sh / start.ps1     # Iniciar servicios (ejecutable)
+    ├── clean.sh / clean.ps1     # Limpiar todo (ejecutable)
     ├── .editorconfig            # Configuración de editor
     │
     ├── src/                     # Código fuente
@@ -241,6 +307,8 @@ proyectos-{tipo}/
     ├── .github/workflows/       # CI/CD GitHub
     └── .gitlab-ci.yml           # CI/CD GitLab
 ```
+
+> **Nota:** En Windows, las rutas usan backslash `\`. En Linux/macOS, usan forward slash `/`.
 
 ---
 
@@ -323,6 +391,31 @@ Puedes crear `crea-proyecto.config.json` para valores por defecto:
 
 ### Gestión del proyecto
 
+#### Windows (PowerShell)
+
+```powershell
+# Iniciar servicios
+.\start.ps1
+
+# Ver estado
+docker compose ps
+
+# Ver logs
+docker compose logs -f
+docker compose logs -f app
+
+# Detener servicios
+docker compose down
+
+# Limpiar todo (incluyendo volúmenes)
+.\clean.ps1
+
+# Acceder al contenedor
+docker compose exec app powershell
+```
+
+#### Linux/macOS (Bash)
+
 ```bash
 # Iniciar servicios
 ./start.sh
@@ -341,11 +434,20 @@ docker compose down
 ./clean.sh
 
 # Acceder al contenedor
-docker compose exec app bash       # PHP/Node
-docker compose exec app powershell # .NET
+docker compose exec app bash
 ```
 
 ### Desarrollo
+
+#### Windows
+
+```powershell
+# .NET
+docker compose exec app dotnet restore
+docker compose exec app dotnet watch run
+```
+
+#### Linux/macOS
 
 ```bash
 # PHP
@@ -364,7 +466,7 @@ docker compose exec app dotnet watch run
 ### Verificación
 
 ```bash
-# Health check
+# Health check (todas las plataformas)
 curl http://localhost:8080/health
 curl http://localhost:3000/health
 
@@ -379,90 +481,100 @@ redis-cli -h localhost -p 6379                     # Redis
 
 ## 📚 Ejemplos
 
-### Proyecto PHP + Laravel + MariaDB
+### Windows (PowerShell)
+
+```powershell
+# PHP + Laravel + MariaDB
+.\crea-proyecto.ps1 -Nombre "blog" -Tipo PHP -Framework Laravel -BD MariaDB
+cd proyectos-php\blog
+.\start.ps1
+
+# Node.js + Express + PostgreSQL
+.\crea-proyecto.ps1 -Nombre "api-rest" -Tipo Node -Framework Express -BD PostgreSQL
+cd proyectos-node\api-rest
+.\start.ps1
+
+# .NET + Web API + SQLServer
+.\crea-proyecto.ps1 -Nombre "microservicio" -Tipo DotNet -Framework "Web API" -BD SQLServer
+cd proyectos-dotnet\microservicio
+.\start.ps1
+```
+
+### Linux/macOS (Bash)
 
 ```bash
+# Proyecto PHP + Laravel + MariaDB
 ./crea-proyecto.sh -n "blog" -t PHP -f Laravel -b MariaDB
 cd proyectos-php/blog
 ./start.sh
-```
 
-### Proyecto Node.js + Express + PostgreSQL
-
-```bash
+# Proyecto Node.js + Express + PostgreSQL
 ./crea-proyecto.sh -n "api-rest" -t Node -f Express -b PostgreSQL
 cd proyectos-node/api-rest
 ./start.sh
 npm install
-```
 
-### Proyecto .NET + Web API + SQLServer
-
-```bash
+# Proyecto .NET + Web API + SQLServer
 ./crea-proyecto.sh -n "microservicio" -t DotNet -f "Web API" -b SQLServer
 cd proyectos-dotnet/microservicio
 ./start.sh
 dotnet restore
 ```
 
-### Proyecto PHP + Symfony + PostgreSQL
+### Proyectos adicionales
 
 ```bash
+# PHP + Symfony + PostgreSQL
 ./crea-proyecto.sh -n "app" -t PHP -f Symfony -b PostgreSQL
-cd proyectos-php/app
-./start.sh
-```
 
-### Proyecto Node.js + NestJS + MongoDB
-
-```bash
+# Node.js + NestJS + MongoDB
 ./crea-proyecto.sh -n "backend" -t Node -f NestJS -b MongoDB
-cd proyectos-node/backend
-./start.sh
-```
 
-### Proyecto .NET + Blazor + Redis (Cache)
-
-```bash
+# .NET + Blazor + Redis (Cache)
 ./crea-proyecto.sh -n "dashboard" -t DotNet -f Blazor -b Redis
-cd proyectos-dotnet/dashboard
-./start.sh
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-| Problema | Causa | Solución |
-|---|---|---|
-| `Permission denied` | Falta permiso de ejecución | `chmod +x crea-proyecto.sh` |
-| `docker: command not found` | Docker no instalado | Ejecuta `./setup.sh` |
-| `nc: command not found` | Netcat no instalado | `apt-get install netcat-openbsd` o `brew install netcat` |
-| `openssl: command not found` | OpenSSL no instalado | `apt-get install openssl` o `brew install openssl` |
-| Puerto ocupado | Puerto en uso | El script sugiere alternativas automáticamente |
-| `Cannot connect to Docker daemon` | Docker no corriendo | `sudo systemctl start docker` o inicia Docker Desktop |
-| `clear: command not found` | Entorno sin terminal interactiva | El script lo maneja automáticamente |
+| Problema | Plataforma | Causa | Solución |
+|---|---|---|---|
+| `Permission denied` | Linux/macOS | Falta permiso de ejecución | `chmod +x crea-proyecto.sh` |
+| `docker: command not found` | Todas | Docker no instalado | Instala Docker Desktop |
+| `nc: command not found` | Linux/macOS | Netcat no instalado | `apt-get install netcat-openbsd` o `brew install netcat` |
+| `openssl: command not found` | Linux/macOS | OpenSSL no instalado | `apt-get install openssl` o `brew install openssl` |
+| Puerto ocupado | Todas | Puerto en uso | El script sugiere alternativas automáticamente |
+| `Cannot connect to Docker daemon` | Todas | Docker no corriendo | Inicia Docker Desktop o `sudo systemctl start docker` |
+| `clear: command not found` | Linux/macOS | Entorno sin terminal interactiva | El script lo maneja automáticamente |
+| `execution of scripts is disabled` | Windows | Política de ejecución | `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` |
+| `WSL2 not installed` | Windows | WSL2 no disponible | Habilita WSL2 en "Características de Windows" |
 
 ### Verificar instalación
 
 ```bash
-# Verificar bash
+# Linux/macOS - Verificar bash
 bash --version
 
-# Verificar Docker
+# Todas las plataformas - Verificar Docker
 docker --version
 docker compose version
 
 # Verificar Docker daemon
 docker ps
 
-# Verificar usuario en grupo docker (Linux)
+# Linux - Verificar usuario en grupo docker
 id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod -aG docker $USER"
+
+# Windows - Verificar PowerShell
+powershell -Command "Get-Host | Select-Object Version"
 ```
 
 ---
 
-## 🔄 Diferencias Windows vs Linux/macOS
+## 🔄 Diferencias entre plataformas
+
+### Windows vs Linux/macOS
 
 | Aspecto | Windows PowerShell | Linux/macOS Bash |
 |---|---|---|
@@ -481,6 +593,19 @@ id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod
 | **Switch** | `switch ($x) { ... }` | `case $x in ... esac` |
 | **Set ejecutable** | Automático | `chmod +x archivo` |
 
+### Diferencias de comportamiento
+
+| Aspecto | PowerShell | Bash |
+|---|---|---|
+| **Manejo de errores** | Try/Catch | set -e / trap |
+| **Variables globales** | $Script: scope | Variables de ambiente |
+| **Piping** | Objects con propiedades | Text streams (strings) |
+| **Tipo de datos** | Tipado (optional) | Strings por defecto |
+| **Paths** | `\` backslash | `/` forward slash |
+| **Búsqueda de comandos** | Get-Command | command -v |
+| **Redirección de errores** | -ErrorAction | 2>&1, 2>/dev/null |
+| **Condicionales** | -eq, -ne, -gt | =, !=, -gt |
+
 ---
 
 ## 📖 Documentación adicional
@@ -489,10 +614,14 @@ id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod
 |---|---|
 | **INDEX.md** | Navegación central de toda la documentación |
 | **QUICKSTART.md** | Guía de inicio rápido (5 minutos) |
-| **README-Linux-Mac.md** | Guía completa de uso |
+| **README-Linux-Mac.md** | Guía completa de uso para Linux/macOS |
+| **README.md** | Este documento - Documentación unificada |
 | **CONVERSION-GUIDE.md** | Cambios técnicos PowerShell → Bash (15+ ejemplos) |
 | **RESUMEN.md** | Resumen general del proyecto |
 | **SETUP-COMPLETADO.md** | Verificación de instalación completada |
+| **crea-proyecto.ps1** | ⭐ Script generador para Windows (PowerShell) |
+| **crea-proyecto.sh** | ⭐ Script generador para Linux/macOS (Bash) |
+| **setup.sh** | 🔧 Script de setup para Linux/macOS |
 
 ---
 
@@ -502,7 +631,13 @@ id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod
 
 1. **Explorar la estructura:**
    ```bash
-   cd proyectos-{tipo}/{nombre}
+   # Windows
+   cd proyectos-php\mi-proyecto
+   dir
+   Get-Content README.md
+
+   # Linux/macOS
+   cd proyectos-php/mi-proyecto
    ls -la
    cat README.md
    ```
@@ -515,6 +650,11 @@ id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod
 
 3. **Iniciar servicios:**
    ```bash
+   # Windows
+   .\start.ps1
+   docker compose ps
+
+   # Linux/macOS
    ./start.sh
    docker compose ps
    ```
@@ -526,7 +666,7 @@ id -nG $USER | grep -qw "docker" && echo "OK" || echo "Agregar con: sudo usermod
 
 5. **Desarrollar:**
    - Modifica archivos en `src/`, `public/`, `config/`
-   - Usa `docker compose exec app bash` para acceder al contenedor
+   - Usa `docker compose exec app powershell` (Windows) o `docker compose exec app bash` (Linux/macOS) para acceder al contenedor
    - Consulta logs con `docker compose logs -f`
 
 ### Despliegue a producción
@@ -555,53 +695,65 @@ Personaliza según tu pipeline.
 - **Bash Guide:** https://mywiki.wooledge.org/BashGuide
 - **POSIX Shell:** https://pubs.opengroup.org/onlinepubs/9699919799/
 - **Docker Compose:** https://docs.docker.com/compose/
+- **PowerShell Docs:** https://docs.microsoft.com/en-us/powershell/
 
 ### Troubleshooting
 
 1. Consulta la sección [Troubleshooting](#-troubleshooting) de este documento
-2. Ejecuta `./setup.sh` para diagnosticar problemas
-3. Revisa `CONVERSION-GUIDE.md` para errores de sintaxis
-4. Verifica logs: `docker compose logs app`
+2. En Linux/macOS, ejecuta `./setup.sh` para diagnosticar problemas
+3. En Windows, ejecuta `.\crea-proyecto.ps1` para ver mensajes de error detallados
+4. Revisa `CONVERSION-GUIDE.md` para errores de sintaxis
+5. Verifica logs: `docker compose logs app`
 
 ---
 
 ## 📊 Resumen de archivos del proyecto
 
-| Archivo | Propósito |
-|---|---|
-| `crea-proyecto.sh` | ⭐ Generador principal de proyectos |
-| `setup.sh` | 🔧 Verifica e instala requisitos |
-| `INDEX.md` | 📍 Navegación central |
-| `QUICKSTART.md` | 🚀 Inicio rápido (5 min) |
-| `README-Linux-Mac.md` | 📖 Guía completa |
-| `CONVERSION-GUIDE.md` | 🔄 Cambios PowerShell → Bash |
-| `RESUMEN.md` | 📋 Resumen general |
-| `SETUP-COMPLETADO.md` | ✅ Verificación de setup |
+| Archivo | Plataforma | Propósito |
+|---|---|---|
+| `crea-proyecto.ps1` | 🪟 Windows | ⭐ Generador principal (PowerShell) |
+| `crea-proyecto.sh` | 🐧🍎 Linux/macOS | ⭐ Generador principal (Bash) |
+| `setup.sh` | 🐧🍎 Linux/macOS | 🔧 Verifica e instala requisitos |
+| `INDEX.md` | Todas | 📍 Navegación central |
+| `QUICKSTART.md` | Todas | 🚀 Inicio rápido (5 min) |
+| `README-Linux-Mac.md` | 🐧🍎 Linux/macOS | 📖 Guía completa |
+| **README.md** | **Todas** | **📖 Documentación unificada (este archivo)** |
+| `CONVERSION-GUIDE.md` | Todas | 🔄 Cambios PowerShell → Bash |
+| `RESUMEN.md` | Todas | 📋 Resumen general |
+| `SETUP-COMPLETADO.md` | 🐧🍎 Linux/macOS | ✅ Verificación de setup |
 
 ---
 
 ## 🎯 Flujo de trabajo recomendado
 
-### Primera vez (15 minutos)
+### Windows (PowerShell)
 
-1. Lee `QUICKSTART.md` (5 min)
-2. Ejecuta `./setup.sh` (5 min)
-3. Ejecuta `./crea-proyecto.sh` (5 min)
+```powershell
+# 1. Lee QUICKSTART.md (5 min)
+# 2. Instala Docker Desktop
+# 3. Crea tu primer proyecto
+.\crea-proyecto.ps1 -Nombre "mi-app" -Tipo PHP -Framework Laravel -BD MariaDB
 
-### Uso diario
+# 4. Entra al proyecto
+cd proyectos-php\mi-app
 
-```bash
-./crea-proyecto.sh                    # Modo interactivo
-./crea-proyecto.sh -n "app" -t PHP    # Modo rápido
-cd proyectos-php/app
-./start.sh
+# 5. Inicia servicios
+.\start.ps1
+
+# 6. Verifica
+curl http://localhost:8080/health
 ```
 
-### Desarrollo avanzado
+### Linux/macOS (Bash)
 
-- Consulta `README-Linux-Mac.md` para características avanzadas
-- Estudia `CONVERSION-GUIDE.md` para modificar el script
-- Personaliza templates y frameworks según tus necesidades
+```bash
+# 1. Lee QUICKSTART.md (5 min)
+# 2. Ejecuta ./setup.sh (5 min)
+# 3. Ejecuta ./crea-proyecto.sh (5 min)
+# 4. Inicia con ./start.sh (1 min)
+```
+
+**Total:** 11 minutos
 
 ---
 
@@ -610,23 +762,27 @@ cd proyectos-php/app
 **Versión actual:** 2.0.0
 
 **Compatibilidad:**
-- Bash 4.0+
-- Docker 20.10+
-- Docker Compose 2.0+
-- Linux (Ubuntu, Debian, CentOS, Fedora)
-- macOS 11+
-- WSL2
+- 🪟 Windows 10/11 con PowerShell 5.0+ y Docker Desktop
+- 🐧 Linux (Ubuntu, Debian, CentOS, Fedora) con Bash 4.0+
+- 🍎 macOS 11+ con Bash 4.0+
+- 🐳 Docker 20.10+ y Docker Compose 2.0+
 
-**Origen:** Conversión de `crea-proyecto.ps1` (PowerShell)
+**Scripts disponibles:**
+- `crea-proyecto.ps1` - Windows (PowerShell)
+- `crea-proyecto.sh` - Linux/macOS (Bash)
+- `setup.sh` - Linux/macOS (configuración automática)
+
+**Origen:** Conversión de PowerShell a Bash para soporte multiplataforma
 
 ---
 
 ## 🤝 Contribuir
 
-1. Modifica `crea-proyecto.sh` según tus necesidades
-2. Consulta `CONVERSION-GUIDE.md` para entender las diferencias Bash/PowerShell
-3. Prueba los cambios con `./setup.sh` y creando un proyecto de prueba
-4. Usa ShellCheck para validar sintaxis: `shellcheck crea-proyecto.sh`
+1. Modifica el script según tu plataforma (`crea-proyecto.ps1` para Windows, `crea-proyecto.sh` para Linux/macOS)
+2. Consulta `CONVERSION-GUIDE.md` para entender las diferencias PowerShell/Bash
+3. Prueba los cambios creando un proyecto de prueba
+4. En Bash, usa ShellCheck para validar sintaxis: `shellcheck crea-proyecto.sh`
+5. En PowerShell, usa `PSAnalyzer` o `PSScriptAnalyzer` para validar sintaxis
 
 ---
 
@@ -636,4 +792,4 @@ Open source - Libre uso y modificación.
 
 ---
 
-**¿Listo?** → Ejecuta `./setup.sh` y luego `./crea-proyecto.sh`
+**¿Listo?** → Ejecuta `./setup.sh` (Linux/macOS) o usa `.\crea-proyecto.ps1` (Windows)
