@@ -46,6 +46,7 @@ Redis_Database='0'
 ScriptVersion='2.0.0'
 ProgressCurrent=0
 ProgressTotal=0
+InvalidNameChars='[\\/:\*"?<>|'\'']'
 
 # Funciones de utilidad
 write_info() { echo -e "${CYAN}$1${NC}"; }
@@ -101,10 +102,10 @@ read_menu_option() {
     done
     
     while true; do
-        echo ""
-        write_info "$title"
+        echo "" >&2
+        write_info "$title" >&2
         for key in $(echo "${!options[@]}" | tr ' ' '\n' | sort -n); do
-            echo "  $key. ${options[$key]}"
+            echo "  $key. ${options[$key]}" >&2
         done
         
         read -p "Selecciona una opcion: " selection
@@ -114,7 +115,7 @@ read_menu_option() {
             return 0
         fi
         
-        write_warning "Opcion no valida. Elige uno de los numeros mostrados."
+        write_warning "Opcion no valida. Elige uno de los numeros mostrados." >&2
     done
 }
 
@@ -122,7 +123,7 @@ read_project_name() {
     while true; do
         read -p "Nombre del proyecto: " value
         
-        if [ -n "$value" ] && ! [[ "$value" =~ [/:\\*\"?\'<>|] ]]; then
+        if [ -n "$value" ] && ! [[ "$value" =~ $InvalidNameChars ]]; then
             echo "${value:0:${#value}}"
             return 0
         fi
@@ -170,7 +171,7 @@ read_port() {
 }
 
 # Banner
-clear
+clear || true
 cat << 'EOF'
    ____  _             _     ____            _             _ 
   |  _ \(_)_ __   __ _| |   |  _ \  __ _ ___| |__ _ __ ___| |

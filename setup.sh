@@ -66,7 +66,12 @@ install_docker_linux() {
         
     elif [[ "$DISTRO" == "CentOS" ]] || [[ "$DISTRO" == "Fedora" ]]; then
         sudo dnf install -y dnf-plugins-core
-        sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+        echo '[docker-ce-stable]
+name=Docker CE Stable
+baseurl=https://download.docker.com/linux/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/fedora/gpg' | sudo tee /etc/yum.repos.d/docker-ce.repo > /dev/null
         sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
         
         sudo systemctl start docker
