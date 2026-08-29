@@ -87,12 +87,12 @@ curl http://localhost:8080/health
 - ✅ **Modo interactivo** con menús guiados
 - ✅ **Modo automático** con parámetros CLI
 - ✅ **3 tipos de proyecto:** PHP, Node.js, .NET
-- ✅ **11 frameworks soportados:** Laravel, Symfony, Slim, CakePHP, Express, NestJS, Fastify, Koa, Web API, MVC, Minimal API, Blazor
+- ✅ **13 plantillas disponibles:** PHP Base, Laravel, Symfony, Slim, CakePHP, Express, NestJS, Fastify, Koa, Web API, MVC, Minimal API y Blazor
 - ✅ **6 bases de datos:** MariaDB, PostgreSQL, SQLServer, MongoDB, Redis, Ambas
 - ✅ **Detección de puertos** ocupados con sugerencias automáticas
 - ✅ **Claves generadas** automáticamente (APP_KEY, JWT_SECRET)
-- ✅ **Estructura completa** con Dockerfile, docker-compose, tests, CI/CD
-- ✅ **Scripts utilitarios** incluidos (`start.sh`, `clean.sh`, `start.ps1`)
+- ✅ **PowerShell:** estructura ampliada con Docker Compose, CI/CD, pruebas y scripts para Windows y Unix
+- ✅ **Bash:** estructura base con Dockerfile, configuración, `start.sh`, `clean.sh`, README y guía de despliegue
 - ✅ **Multiplataforma:** Windows, Linux y macOS
 
 ---
@@ -141,8 +141,9 @@ chmod +x setup.sh
 
 Este script:
 - Detecta tu sistema operativo
-- Verifica Docker, Bash, Netcat, OpenSSL
-- Instala dependencias faltantes
+- Verifica Docker, Bash, Netcat y OpenSSL
+- Puede instalar Docker y Docker Compose con confirmación
+- Puede instalar `curl`, Git, Netcat, OpenSSL y `jq` con confirmación
 - Configura permisos de ejecución
 - Valida el daemon de Docker
 
@@ -230,7 +231,7 @@ Ideal para automatización y CI/CD.
 | Framework | `-Framework` | `-f` | Framework | Depende del tipo |
 | Base de datos | `-BD` | `-b` | Base de datos | `MariaDB`, `SQLServer`, `PostgreSQL`, `MongoDB`, `Redis`, `Ambas` |
 | Puerto app | `-PuertoApp` | `-p` | Puerto de la app | 1-65535 |
-| Versión | `-VersionPHP/VersionNode/VersionDotNet` | `-v` | Versión runtime | PHP: 7.4-8.3, Node: 16-22, .NET: 6.0-9.0 |
+| Versión | `-VersionPHP`, `-VersionNode`, `-VersionDotNet` | `-v` | En Bash, `-v` solo define la versión de PHP; Node y .NET usan sus valores predeterminados en modo automático | PHP: 7.4-8.3, Node: 16-22, .NET: 6.0-9.0 |
 
 ---
 
@@ -281,6 +282,8 @@ Ideal para automatización y CI/CD.
 
 ## 📁 Estructura generada
 
+El generador de PowerShell crea la estructura ampliada siguiente. El generador Bash crea el conjunto base indicado después de ella.
+
 ```
 proyectos-{tipo}/
 └── tu-proyecto/
@@ -309,6 +312,10 @@ proyectos-{tipo}/
 ```
 
 > **Nota:** En Windows, las rutas usan backslash `\`. En Linux/macOS, usan forward slash `/`.
+
+### Salida actual de Bash
+
+`crea-proyecto.sh` genera `.env`, `.env.example`, `.gitignore`, `Dockerfile`, `start.sh`, `clean.sh`, `README.md`, `DEPLOYMENT.md` y los archivos fuente básicos. Actualmente no genera `docker-compose.yml`, archivos de CI/CD, `SECURITY.md`, `CONTRIBUTING.md` ni configuraciones por ambiente.
 
 ---
 
@@ -383,7 +390,7 @@ Puedes crear `crea-proyecto.config.json` para valores por defecto:
 |---|---|---|
 | `APP_KEY` | Encriptación de aplicación | 32 bytes (base64) |
 | `JWT_SECRET` | Autenticación JWT | 64 bytes (base64) |
-| `DATA_PROTECTION_KEY` | Protección de datos | 32 bytes (base64) |
+| `DATA_PROTECTION_KEY` | Protección de datos | 32 bytes (base64, generado por PowerShell) |
 
 ---
 

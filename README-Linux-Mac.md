@@ -2,7 +2,7 @@
 
 ## 📋 Descripción
 
-`crea-proyecto.sh` es la versión bash/shell del generador de proyectos Docker para Linux y macOS. Realiza la misma función que `crea-proyecto.ps1` pero con sintaxis compatible con Unix.
+`crea-proyecto.sh` es la versión Bash del generador para Linux y macOS. Crea una estructura base compatible con Unix; no genera todavía todos los artefactos adicionales de `crea-proyecto.ps1`.
 
 ## 🚀 Requisitos previos
 
@@ -49,7 +49,9 @@ Esto te guiará a través de preguntas sobre:
 - `-f` = Framework
 - `-b` = Base de datos (MariaDB, PostgreSQL, SQLServer, MongoDB, Redis, Ambas)
 - `-p` = Puerto de la aplicación
-- `-v` = Versión (PHP/Node/DotNet)
+- `-v` = Versión de PHP
+
+En modo automático, Node.js usa la versión 22 y .NET usa la versión 8.0. Sus versiones y el gestor de paquetes de Node solo se seleccionan en modo interactivo. Bash no admite parámetros para el puerto de base de datos ni para esas versiones.
 
 ## 📂 Estructura generada
 
@@ -62,7 +64,6 @@ proyectos-{tipo}/
     ├── .env.example              # Plantilla de variables
     ├── .gitignore               # Archivos a ignorar en git
     ├── Dockerfile               # Imagen Docker
-    ├── docker-compose.yml       # Orquestación de servicios
     ├── README.md                # Documentación
     ├── DEPLOYMENT.md            # Guía de despliegue
     ├── start.sh                 # Script para iniciar (chmod +x)
@@ -72,8 +73,10 @@ proyectos-{tipo}/
     ├── src/                     # Código fuente
     ├── config/                  # Configuración
     ├── tests/                   # Tests
-    └── ...                      # Más según el framework
+   └── ...                      # Más según el framework
 ```
+
+La versión Bash no genera `docker-compose.yml`, CI/CD, `SECURITY.md`, `CONTRIBUTING.md` ni archivos `.env` por ambiente. Añade un archivo Compose antes de ejecutar `./start.sh`.
 
 ## 🔧 Diferencias con la versión PowerShell
 
@@ -117,10 +120,8 @@ cd proyectos-dotnet/microservicio
    cd proyectos-{tipo}/{nombre}
    ```
 
-2. **Inicia los servicios:**
-   ```bash
-   ./start.sh
-   ```
+2. **Añade la orquestación Docker:**
+   Crea o proporciona un `docker-compose.yml`. El script Bash actual no lo genera.
 
 3. **Verifica el estado:**
    ```bash
@@ -145,7 +146,7 @@ cd proyectos-dotnet/microservicio
 ## 🔐 Seguridad
 
 - **.env nunca en git:** El `.gitignore` incluye `.env`
-- **Claves generadas automáticamente:** APP_KEY y JWT_SECRET se crean al generar el proyecto
+- **Claves generadas automáticamente:** PHP guarda `APP_KEY` y Node.js guarda `JWT_SECRET` en su `.env`
 - **Variables de ejemplo:** Usa `.env.example` como referencia, no como secretos
 
 ## 🐛 Solución de problemas
@@ -185,7 +186,7 @@ En macOS, instálalo con: `brew install netcat`
 
 ## ✅ Verifica el funcionamiento
 
-Después de iniciar con `./start.sh`:
+Después de proporcionar un `docker-compose.yml` e iniciar con `./start.sh`:
 
 ```bash
 # Health check

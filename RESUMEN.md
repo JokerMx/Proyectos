@@ -25,7 +25,8 @@ chmod +x crea-proyecto.sh
 Script de configuración que:
 - ✓ Detecta el sistema operativo (Linux/macOS)
 - ✓ Verifica requisitos (Docker, Docker Compose, Bash, etc.)
-- ✓ Instala dependencias faltantes
+- ✓ Ofrece instalar Docker y Docker Compose cuando faltan
+- ✓ Ofrece instalar dependencias complementarias (curl, Git, Netcat, OpenSSL y jq)
 - ✓ Configura permisos
 - ✓ Valida el daemon de Docker
 
@@ -65,7 +66,7 @@ Documento técnico con las diferencias entre PowerShell y Bash:
 |---|---|---|
 | **Archivo** | `crea-proyecto.ps1` | `crea-proyecto.sh` |
 | **Lenguaje** | PowerShell scripting | Bash/POSIX shell |
-| **Funcionalidad** | Idéntica ✓ | Idéntica ✓ |
+| **Funcionalidad** | Generador ampliado | Generador base |
 | **Requisitos** | PowerShell 5.0+ | Bash 4.0+ |
 | **Docker** | Windows + WSL2 | Linux nativo / macOS |
 | **Gestión puertos** | Get-NetTCPConnection | netcat (nc) |
@@ -82,15 +83,8 @@ proyectos-{tipo}/
 └── tu-proyecto/
     ├── .env                          # Variables de entorno
     ├── .env.example                  # Plantilla
-    ├── .env.development
-    ├── .env.production
-    ├── .env.test
     ├── .gitignore
     ├── Dockerfile                    # Imagen Docker
-    ├── docker-compose.yml            # Orquestación
-    ├── docker-compose.dev.yml
-    ├── docker-compose.prod.yml
-    ├── docker-compose.test.yml
     ├── README.md
     ├── DEPLOYMENT.md
     ├── start.sh                      # Script para iniciar (ejecutable)
@@ -101,8 +95,10 @@ proyectos-{tipo}/
     ├── public/                       # Archivos públicos (PHP/Node)
     ├── config/                       # Configuración
     ├── tests/                        # Tests
-    └── docs/                         # Documentación
+   └── ...                            # Archivos específicos del framework
 ```
+
+La salida de Bash no incluye `docker-compose.yml`, CI/CD, `SECURITY.md`, `CONTRIBUTING.md` ni archivos `.env` por ambiente. Estos artefactos sí forman parte de la salida ampliada de PowerShell.
 
 ---
 
@@ -141,6 +137,7 @@ curl http://localhost:8080/health
 - [ ] Ejecutar `./setup.sh` para verificar requisitos
 - [ ] Instalar Docker si es necesario
 - [ ] Ejecutar `./crea-proyecto.sh` en modo interactivo
+- [ ] Crear o proporcionar `docker-compose.yml` antes de iniciar los servicios
 - [ ] Navegar a `proyectos-{tipo}/{nombre}`
 - [ ] Ejecutar `./start.sh` para iniciar servicios
 - [ ] Verificar con `docker compose ps`

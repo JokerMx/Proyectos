@@ -15,7 +15,7 @@ chmod +x setup.sh
 Este script:
 - ✓ Detecta tu SO
 - ✓ Verifica Docker e instalaciones necesarias
-- ✓ Instala lo que falta automáticamente
+- ✓ Ofrece instalar Docker, Docker Compose y dependencias faltantes
 - ✓ Configura permisos
 
 ### Opción B: Instalación manual
@@ -60,13 +60,14 @@ Te hará preguntas sobre:
 
 ---
 
-## ✅ Paso 3: Iniciar servicios (1 min)
+## ✅ Paso 3: Completar e iniciar servicios
 
 ```bash
 # Entra a tu proyecto
 cd proyectos-{tipo}/tu-proyecto
 
-# Inicia los servicios
+# El generador Bash actual no crea docker-compose.yml.
+# Añade o copia un archivo Compose antes de iniciar.
 ./start.sh
 
 # Verifica que todo funciona
@@ -92,14 +93,13 @@ Deberías ver:
 
 ## 📁 ¿Dónde está mi proyecto?
 
-Después de ejecutar `crea-proyecto.sh`, encontrarás:
+Después de ejecutar `crea-proyecto.sh`, encontrarás una estructura base:
 
 ```
 tu-directorio-actual/
 └── proyectos-{tipo}/
     └── tu-proyecto/          ← Aquí está tu proyecto
         ├── Dockerfile
-        ├── docker-compose.yml
         ├── start.sh
         ├── .env
         └── ... código fuente ...
@@ -180,6 +180,7 @@ mongosh mongodb://localhost:27017
 ```
 
 ### Ejecutar comandos en el contenedor:
+Después de crear `docker-compose.yml`:
 ```bash
 docker compose exec app bash          # PHP/Node
 docker compose exec app powershell    # .NET
@@ -199,35 +200,28 @@ docker compose up -d --build
 ```bash
 ./crea-proyecto.sh -n "blog" -t PHP -f Laravel -b MariaDB
 cd proyectos-php/blog
-./start.sh
+# Añade docker-compose.yml y después ejecuta: ./start.sh
 ```
 
 ### Proyecto Node.js Express + PostgreSQL:
 ```bash
 ./crea-proyecto.sh -n "api" -t Node -f Express -b PostgreSQL  
 cd proyectos-node/api
-./start.sh
-npm install    # Instala dependencias
+# Añade docker-compose.yml y después ejecuta: ./start.sh
 ```
 
 ### Proyecto .NET Web API + SQLServer:
 ```bash
 ./crea-proyecto.sh -n "microservice" -t DotNet -f "Web API" -b SQLServer
 cd proyectos-dotnet/microservice
-./start.sh
-dotnet restore
+# Añade docker-compose.yml y después ejecuta: ./start.sh
 ```
 
 ---
 
 ## 🔑 Claves generadas automáticamente
 
-Cada proyecto genera:
-- **APP_KEY:** Clave de encriptación (base64)
-- **JWT_SECRET:** Secreto para autenticación
-- **DATA_PROTECTION_KEY:** Clave para protección de datos
-
-Estas están en el archivo `.env` (NO subir a git).
+Los proyectos PHP incluyen `APP_KEY` y los proyectos Node.js incluyen `JWT_SECRET` en `.env`. El script Bash no guarda `DATA_PROTECTION_KEY` en los archivos generados.
 
 ---
 

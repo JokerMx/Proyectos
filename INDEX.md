@@ -29,7 +29,7 @@
 - Modo automático con parámetros
 - Soporta PHP, Node.js, .NET
 - 6 opciones de base de datos
-- Genera estructura completa con Docker
+- Genera una estructura base con Dockerfile y configuración
 
 **Cómo usar:**
 ```bash
@@ -192,7 +192,7 @@ chmod +x setup.sh
 1. Lee **QUICKSTART.md** (5 min)
 2. Ejecuta `./setup.sh` (2 min)
 3. Ejecuta `./crea-proyecto.sh` (3 min)
-4. Inicia con `./start.sh` (1 min)
+4. Añade `docker-compose.yml` y ejecuta `./start.sh`
 
 **Total:** 11 minutos
 
@@ -298,11 +298,11 @@ Si estás en **Windows usando WSL2** o **máquina virtual Linux**:
 3. Ejecuta `./setup.sh` para diagnosticar problemas
 
 ### Documentación en proyectos generados
-Cada proyecto creado incluye:
+La salida actual de `crea-proyecto.sh` incluye:
 - `README.md` - Documentación del proyecto
 - `DEPLOYMENT.md` - Guía de despliegue
-- `SECURITY.md` - Políticas de seguridad
-- `CONTRIBUTING.md` - Contribución
+
+La salida ampliada de `crea-proyecto.ps1` también incluye `SECURITY.md` y `CONTRIBUTING.md`.
 
 ---
 
@@ -311,37 +311,24 @@ Cada proyecto creado incluye:
 ### crea-proyecto.sh genera:
 ```
 Dockerfile
-docker-compose.yml
-docker-compose.dev.yml
-docker-compose.prod.yml
-docker-compose.test.yml
 .env (con claves generadas)
 .env.example
-.env.development
-.env.production
-.env.test
 .gitignore
-.editorconfig
 README.md
 DEPLOYMENT.md
-CONTRIBUTING.md
-SECURITY.md
 start.sh (ejecutable)
 clean.sh (ejecutable)
-Caddyfile
-.github/workflows/ci.yml
-.gitlab-ci.yml
-.vscode/settings.json
-.idea/docker-compose.xml
 [Código fuente según framework]
 ```
+
+No genera `docker-compose.yml`; proporciona o crea ese archivo antes de ejecutar `start.sh`.
 
 ### setup.sh hace:
 ```
 ✓ Detectar SO
 ✓ Verificar requisitos
-✓ Instalar Docker (si falta)
-✓ Instalar dependencias
+✓ Ofrecer instalar Docker y Docker Compose (si faltan)
+✓ Ofrecer instalar dependencias
 ✓ Configurar permisos
 ✓ Validar docker daemon
 ```

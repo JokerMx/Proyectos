@@ -2,7 +2,7 @@
 
 ## 📌 Resumen de cambios
 
-Se ha convertido `crea-proyecto.ps1` a `crea-proyecto.sh` para compatibilidad con Linux y macOS. Este documento detalla los cambios específicos realizados.
+Se creó `crea-proyecto.sh` para compatibilidad con Linux y macOS. Este documento detalla equivalencias de sintaxis; no implica paridad funcional completa con `crea-proyecto.ps1`.
 
 ---
 
@@ -331,6 +331,8 @@ echo -e "${GREEN}Valor: $value${NC}"
 ---
 
 ## 🎯 Diferencias importantes en el comportamiento
+
+`crea-proyecto.ps1` genera archivos de Compose, CI/CD, configuraciones por ambiente y documentación ampliada. `crea-proyecto.sh` genera actualmente una estructura base y no crea `docker-compose.yml`; por tanto, es necesario añadirlo antes de usar `start.sh`.
 
 | Aspecto | PowerShell | Bash |
 |---|---|---|

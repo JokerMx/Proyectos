@@ -1,8 +1,8 @@
 # ✅ Tarea completada: Script Linux/macOS generado
 
-## 📦 Archivos generados
+## 📦 Archivos disponibles
 
-Se han creado **7 archivos nuevos** en `c:\docker\Proyectos\`:
+El directorio contiene los generadores de PowerShell y Bash, el script de preparación y su documentación:
 
 ```
 c:\docker\Proyectos\
@@ -40,7 +40,7 @@ chmod +x crea-proyecto.sh
 
 ### 2. **setup.sh** (CONFIGURACIÓN INICIAL)
 - Verifica si Docker está instalado
-- Instala dependencias faltantes automáticamente
+- Ofrece instalar Docker y dependencias faltantes
 - Detecta el SO (Linux/macOS)
 - Configura permisos
 
@@ -132,7 +132,7 @@ Visión general:
 |---|---|---|
 | **Archivo** | `crea-proyecto.ps1` | `crea-proyecto.sh` ✅ |
 | **Lenguaje** | PowerShell 5.0+ | Bash 4.0+ ✅ |
-| **Funcionalidad** | Idéntica | Idéntica ✅ |
+| **Funcionalidad** | Generador ampliado | Generador base |
 | **Docker** | Windows + WSL2 | Linux nativo + macOS ✅ |
 | **Requisitos** | PowerShell, Docker | Bash, Docker ✅ |
 | **Instalación** | Manual | Automática (setup.sh) ✅ |
@@ -145,11 +145,9 @@ Visión general:
 ✅ Modo automático con parámetros  
 ✅ Detecta puertos ocupados  
 ✅ Genera claves seguras (APP_KEY, JWT_SECRET)  
-✅ Crea estructura completa (src, config, tests, docs)  
-✅ Incluye Dockerfile y docker-compose  
-✅ Incluye CI/CD (.github/workflows, .gitlab-ci.yml)  
-✅ Documentación automática (README.md, DEPLOYMENT.md)  
-✅ Seguridad incluida (SECURITY.md, .gitignore)  
+✅ Crea estructura base (código fuente y configuración según el tipo)  
+✅ Incluye Dockerfile, `.env`, `.env.example`, README y DEPLOYMENT  
+✅ Incluye `.gitignore`, `start.sh` y `clean.sh`  
 ✅ Scripts de utilidad (start.sh, clean.sh)  
 
 ---
@@ -182,12 +180,9 @@ Visión general:
 
 Cada proyecto generado incluye:
 
-✓ Variables de entorno separadas por ambiente (.env.dev, .prod, .test)  
 ✓ `.env` en `.gitignore` (NO se sube a git)  
 ✓ Claves generadas aleatoriamente  
-✓ Archivo `SECURITY.md` con buenas prácticas  
 ✓ Archivo `.env.example` como referencia  
-✓ Diferenciación de configuración por ambiente  
 
 ---
 
@@ -214,7 +209,7 @@ Cada proyecto generado incluye:
 
 ## 🎓 Documentación de proyectos generados
 
-Cada proyecto creado incluye:
+La salida ampliada de PowerShell incluye:
 
 ```
 proyecto/
@@ -377,4 +372,4 @@ Has recibido:
 **Fecha creación:** 2024  
 **Plataformas:** Linux, macOS  
 **Lenguaje:** Bash/POSIX Shell  
-**Compatibilidad:** 100% con crea-proyecto.ps1 de Windows
+**Compatibilidad:** Bash 4.0+ para la estructura base de Linux/macOS
